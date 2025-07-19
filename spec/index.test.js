@@ -5,6 +5,7 @@ const lower = require('../src/utils/lower');
 const upper = require('../src/utils/upper');
 const capitalize = require('../src/utils/capitalize');
 const switchFn = require('../src/utils/switch');
+const replace = require('../src/utils/replace');
 
 test('join', () => {
   const result = join({
@@ -91,5 +92,46 @@ test('switch', () => {
   });
   expect(result2).toMatchObject({
     value: 'nope',
+  });
+});
+
+test('replace', () => {
+  // Test with plain string (replaces first occurrence only - native JS behavior)
+  const result = replace({
+    params: ['Hello world!', 'world', 'serverless'],
+  });
+  expect(result).toMatchObject({
+    value: 'Hello serverless!',
+  });
+
+  const result2 = replace({
+    params: ['foo-bar-foo', 'foo', 'baz'],
+  });
+  expect(result2).toMatchObject({
+    value: 'baz-bar-foo', // Only first 'foo' is replaced
+  });
+
+  // Test with regex pattern - global flag
+  const result3 = replace({
+    params: ['Hello World and WORLD!', '/world/gi', 'serverless'],
+  });
+  expect(result3).toMatchObject({
+    value: 'Hello serverless and serverless!',
+  });
+
+  // Test with regex pattern - case sensitive, first occurrence only
+  const result4 = replace({
+    params: ['foo-bar-foo-BAR', '/foo/g', 'baz'],
+  });
+  expect(result4).toMatchObject({
+    value: 'baz-bar-baz-BAR',
+  });
+
+  // Test with regex pattern - case insensitive
+  const result5 = replace({
+    params: ['foo-bar-foo-BAR', '/foo/gi', 'baz'],
+  });
+  expect(result5).toMatchObject({
+    value: 'baz-bar-baz-baz',
   });
 });

@@ -20,4 +20,7 @@ module.exports = {
   capitalize: {
     resolve: require('./capitalize'),
   },
+  replace: {
+    resolve: require('./replace'),
+  },
 };
