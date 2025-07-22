@@ -42,11 +42,11 @@ custom:
 
 ### Outputs:
 
-| Example | Input | Pattern | Output |
-|--|--|--|--|
-| Plain string | MyApp | 'App' | MyService |
-| Plain string (first only) | foo-bar-foo | 'foo' | baz-bar-foo |
-| Regex (case-insensitive) | Hello WORLD and world | '/world/gi' | Hello serverless and serverless |
-| Regex (first only) | test-test-test | '/test/' | demo-test-test |
-| Regex (global) | test-test-test | '/test/g' | demo-demo-demo |
-| Regex (global numbers) | foo123bar456 | '/[0-9]+/g' | fooXXXbarXXX | 
+| Example | Input | Pattern | Replacement | Output |
+|--|--|--|--|--|
+| Plain string | MyApp | 'App' | 'Service' | MyService |
+| Plain string (first only) | foo-bar-foo | 'foo' | 'baz' | baz-bar-foo |
+| Regex (case-insensitive) | Hello WORLD and world | '/world/gi' | 'serverless' | Hello serverless and serverless |
+| Regex (first only) | test-test-test | '/test/' | 'demo' | demo-test-test |
+| Regex (global) | test-test-test | '/test/g' | 'demo' | demo-demo-demo |
+| Regex (global numbers) | foo123bar456 | '/[0-9]+/g' | 'XXX' | fooXXXbarXXX |
