@@ -1,24 +1,24 @@
 module.exports = ({ params }) => {
   if (params.length < 3) {
-    throw new Error('Missing params for function replace. Expected: string, searchPattern, replacementSubString');
+    throw new Error('Missing params for function replace. Expected: string, searchPattern, replacementString');
   }
   
-  const [string, searchPattern, replacementSubString] = params;
+  const [string, searchPattern, replacementString] = params;
   
-  // Check if searchPattern is a regex pattern (starts and ends with /)
-  if (typeof searchPattern === 'string' && searchPattern.startsWith('/') && searchPattern.lastIndexOf('/') > 0) {
-    // Parse regex pattern like '/foo/g' or '/foo/ig'
-    const lastSlashIndex = searchPattern.lastIndexOf('/');
-    const pattern = searchPattern.slice(1, lastSlashIndex);
-    const flags = searchPattern.slice(lastSlashIndex + 1);
+  // Check if searchPattern is a regex (starts with / and ends with /flags)
+  const regexMatch = searchPattern.match(/^\/(.+?)\/([gimsy]*)$/);
+  if (regexMatch) {
+    // It's a regex pattern, create RegExp object
+    const pattern = regexMatch[1];
+    const flags = regexMatch[2];
     const searchRegex = new RegExp(pattern, flags);
     return {
-      value: `${string}`.replace(searchRegex, replacementSubString),
+      value: `${string}`.replace(searchRegex, replacementString),
     };
   } else {
     // Treat as plain string - replaces first occurrence only (native JS behavior)
     return {
-      value: `${string}`.replace(searchPattern, replacementSubString),
+      value: `${string}`.replace(searchPattern, replacementString),
     };
   }
 }; 
